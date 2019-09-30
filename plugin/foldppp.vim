@@ -15,7 +15,7 @@ set cpoptions&vim
 let g:foldppp_maxheight = get(g:,'foldppp_maxheight', 30)
 
 command! -nargs=0 Foldppp call foldppp#Show_fold()
-noremap <unique> <Plug>(foldppp) :<C-u>call foldppp#Show_fold()<CR>
+nnoremap <silent> <Plug>(foldppp-show) :<C-u>call foldppp#Show_fold()<CR>
 
 let &cpoptions = s:save_cpoptions
 unlet s:save_cpoptions
