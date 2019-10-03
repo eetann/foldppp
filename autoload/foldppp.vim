@@ -5,19 +5,23 @@ scriptencoding utf-8
 let s:save_cpoptions = &cpoptions
 set cpoptions&vim
 
-" echo foldclosed(26)
-
 function! s:foldppp_filter(windid, key) abort
     " TODO: それぞれのキーを辞書に登録して任意に書き換えられるようにする
-    if a:key ==? "\<C-k>"
+    " TODO: G、gg、一時的なpppwinサイズの変更等のマッピング
+    if a:key ==# "\<C-k>"
         let s:oldstart = popup_getoptions(a:windid)['firstline']
         " TODO: スクロール量を変数にする
+        " TODO: 不必要なスクロールはしない
         let s:newstart = (s:oldstart - 1) > 0 ? (s:oldstart - 1) : 1
         call popup_setoptions(a:windid,{'firstline':s:newstart})
-    elseif a:key ==? "\<C-j>"
+    elseif a:key ==# "\<C-j>"
         let s:oldstart = popup_getoptions(a:windid)['firstline']
         let s:newstart = line('$') > s:oldstart ? (s:oldstart + 1) : line('$')
         call popup_setoptions(a:windid,{'firstline':s:newstart})
+    elseif a:key ==# 'l'
+        " 何もしない
+    elseif a:key ==# 'h'
+        " 何もしない
     endif
 endfunction
 
