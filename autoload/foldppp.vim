@@ -5,6 +5,7 @@ scriptencoding utf-8
 let s:save_cpoptions = &cpoptions
 set cpoptions&vim
 
+" help の *popup-filter* と *popup_menu-shortcut-example* 参考
 function! s:foldppp_filter(windid, key) abort
     " TODO: それぞれのキーを辞書に登録して任意に書き換えられるようにする
     " TODO: G、gg、一時的なpppwinサイズの変更等のマッピング
@@ -14,15 +15,17 @@ function! s:foldppp_filter(windid, key) abort
         " TODO: 不必要なスクロールはしない
         let s:newstart = (s:oldstart - 1) > 0 ? (s:oldstart - 1) : 1
         call popup_setoptions(a:windid,{'firstline':s:newstart})
+        return 1
     elseif a:key ==# "\<C-j>"
         let s:oldstart = popup_getoptions(a:windid)['firstline']
         let s:newstart = line('$') > s:oldstart ? (s:oldstart + 1) : line('$')
         call popup_setoptions(a:windid,{'firstline':s:newstart})
-    elseif a:key ==# 'l'
-        " 何もしない
-    elseif a:key ==# 'h'
-        " 何もしない
+        return 1
+    elseif a:key ==# 'x'
+        call popup_close(a:winid)
+        return 1
     endif
+    return 0
 endfunction
 
 function! foldppp#Show_fold() abort
